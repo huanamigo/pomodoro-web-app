@@ -1,9 +1,24 @@
 import styles from './Timer.module.scss';
 
-const Timer = () => {
+interface IProps {
+  color: string;
+  setColor: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const Timer = ({ color, setColor }: IProps) => {
   return (
     <div className={styles.container}>
-      <p>POMODORO</p>
+      <button
+        onClick={() => {
+          if (color === 'red') {
+            setColor('cyan');
+          } else {
+            setColor('red');
+          }
+        }}
+      >
+        POMODORO
+      </button>
     </div>
   );
 };

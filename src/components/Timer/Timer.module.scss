@@ -1,7 +1,12 @@
+@import '../../variables.css';
+
 .container {
   width: 500px;
-  color: cyan;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  button {
+    background-color: var(--main-color);
+  }
 }
