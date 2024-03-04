@@ -8,11 +8,12 @@ interface IProps {
 
 const Timer = ({ color, setColor }: IProps) => {
   const [miliseconds, setMiliseconds] = useState(0);
-  const [seconds, setSeconds] = useState(0);
-  const [minutes, setMinutes] = useState(1);
+  const [seconds, setSeconds] = useState(10);
+  const [minutes, setMinutes] = useState(0);
   const [isTicking, setIsTicking] = useState(false);
   const [startDate, setStartDate] = useState(new Date().getTime());
   const [stoppedMiliseconds, setStoppedMiliseconds] = useState(0);
+  const [isBreak, setIsBreak] = useState(false);
 
   const startTimer = () => {
     setStartDate(new Date().getTime());
@@ -24,11 +25,11 @@ const Timer = ({ color, setColor }: IProps) => {
     setStoppedMiliseconds(miliseconds);
   };
 
-  const resetTimer = () => {
+  const resetTimer = (resetMinutes: number) => {
     stopTimer();
     setMiliseconds(0);
     setSeconds(0);
-    setMinutes(1);
+    setMinutes(resetMinutes);
   };
 
   useEffect(() => {
@@ -50,10 +51,19 @@ const Timer = ({ color, setColor }: IProps) => {
 
       if (seconds === 0) {
         if (minutes === 0) {
-          stopTimer();
-          console.log('koniec');
-          setMinutes(0);
-          setSeconds(0);
+          if (isBreak) {
+            setIsBreak(false);
+            setColor('yellow');
+            console.log('koniec przerwy');
+            resetTimer(20);
+            startTimer();
+          } else if (!isBreak) {
+            setIsBreak(true);
+            setColor('red');
+            console.log('przerwa');
+            resetTimer(5);
+            startTimer();
+          }
         } else {
           setMinutes(minutes - 1);
           setSeconds(59);
@@ -62,6 +72,7 @@ const Timer = ({ color, setColor }: IProps) => {
         setSeconds(seconds - 1);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [miliseconds, seconds, minutes]);
 
   return (
@@ -78,7 +89,13 @@ const Timer = ({ color, setColor }: IProps) => {
       >
         COLOR
       </button>
-      <button onClick={() => resetTimer()} className={styles.resetBtn}>
+      <button
+        onClick={() => {
+          resetTimer(20);
+          setIsBreak(false);
+        }}
+        className={styles.resetBtn}
+      >
         RESET
       </button>
       <button
