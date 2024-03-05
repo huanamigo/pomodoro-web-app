@@ -8,12 +8,13 @@ interface IProps {
 
 const Timer = ({ color, setColor }: IProps) => {
   const [miliseconds, setMiliseconds] = useState(0);
-  const [seconds, setSeconds] = useState(10);
-  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+  const [minutes, setMinutes] = useState(20);
   const [isTicking, setIsTicking] = useState(false);
   const [startDate, setStartDate] = useState(new Date().getTime());
   const [stoppedMiliseconds, setStoppedMiliseconds] = useState(0);
   const [isBreak, setIsBreak] = useState(false);
+  const [defaultMinutes, setDefaultMinutes] = useState(20);
 
   const startTimer = () => {
     setStartDate(new Date().getTime());
@@ -47,7 +48,6 @@ const Timer = ({ color, setColor }: IProps) => {
       setStartDate(new Date().getTime());
       setMiliseconds(0);
       setStoppedMiliseconds(0);
-      console.log(miliseconds);
 
       if (seconds === 0) {
         if (minutes === 0) {
@@ -75,6 +75,14 @@ const Timer = ({ color, setColor }: IProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [miliseconds, seconds, minutes]);
 
+  useEffect(() => {
+    document.documentElement.style.setProperty(
+      '--progress',
+      `${((minutes * 60 + seconds) / (defaultMinutes * 60)) * 100}%`
+    );
+    console.log(`${((minutes * 60 + seconds) / (defaultMinutes * 60)) * 100}%`);
+  }, [defaultMinutes, seconds]);
+
   return (
     <div className={styles.container}>
       <button
@@ -91,7 +99,7 @@ const Timer = ({ color, setColor }: IProps) => {
       </button>
       <button
         onClick={() => {
-          resetTimer(20);
+          resetTimer(defaultMinutes);
           setIsBreak(false);
         }}
         className={styles.resetBtn}
@@ -113,10 +121,23 @@ const Timer = ({ color, setColor }: IProps) => {
       <button onClick={() => stopTimer()} className={styles.startBtn}>
         STOP
       </button>
+      <input
+        type="number"
+        onChange={(e) => {
+          setDefaultMinutes(Number(e.target.value));
+          resetTimer(Number(e.target.value));
+          if (!isTicking) {
+            setMinutes(Number(e.target.value));
+          }
+        }}
+      />
       <p className={styles.time}>
         {String('0' + minutes).slice(-2)}:{String('0' + seconds).slice(-2)}
       </p>
       <p className={styles.time}>{String('00' + miliseconds).slice(-3)}</p>
+      <div className={styles.progressBar}>
+        <div className={styles.progressBarInside}></div>
+      </div>
     </div>
   );
 };

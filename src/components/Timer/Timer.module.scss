@@ -22,4 +22,16 @@
   .time {
     color: var(--main-color);
   }
+
+  .progressBar {
+    width: 500px;
+    height: 10px;
+    background-color: white;
+    .progressBarInside {
+      background-color: var(--main-color);
+      height: 10px;
+      width: var(--progress);
+      z-index: 3;
+    }
+  }
 }
