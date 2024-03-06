@@ -8,13 +8,14 @@ interface IProps {
 
 const Timer = ({ color, setColor }: IProps) => {
   const [miliseconds, setMiliseconds] = useState(0);
-  const [seconds, setSeconds] = useState(0);
-  const [minutes, setMinutes] = useState(20);
   const [isTicking, setIsTicking] = useState(false);
   const [startDate, setStartDate] = useState(new Date().getTime());
   const [stoppedMiliseconds, setStoppedMiliseconds] = useState(0);
   const [isBreak, setIsBreak] = useState(false);
-  const [defaultMinutes, setDefaultMinutes] = useState(20);
+  const [defaultMinutes, setDefaultMinutes] = useState(2);
+  const [defaultBreakMinutes, setDefaultBreakMinutes] = useState(1);
+  const [seconds, setSeconds] = useState(0);
+  const [minutes, setMinutes] = useState(defaultMinutes);
 
   const startTimer = () => {
     setStartDate(new Date().getTime());
@@ -26,11 +27,15 @@ const Timer = ({ color, setColor }: IProps) => {
     setStoppedMiliseconds(miliseconds);
   };
 
-  const resetTimer = (resetMinutes: number) => {
+  const resetTimer = () => {
     stopTimer();
     setMiliseconds(0);
     setSeconds(0);
-    setMinutes(resetMinutes);
+    if (isBreak) {
+      setMinutes(defaultBreakMinutes);
+    } else {
+      setMinutes(defaultMinutes);
+    }
   };
 
   useEffect(() => {
@@ -53,15 +58,21 @@ const Timer = ({ color, setColor }: IProps) => {
         if (minutes === 0) {
           if (isBreak) {
             setIsBreak(false);
+            resetTimer();
+            setMinutes(defaultMinutes);
             setColor('yellow');
             console.log('koniec przerwy');
-            resetTimer(20);
+            console.log(isBreak);
+            console.log(defaultMinutes);
             startTimer();
           } else if (!isBreak) {
             setIsBreak(true);
+            resetTimer();
+            setMinutes(defaultBreakMinutes);
             setColor('red');
             console.log('przerwa');
-            resetTimer(5);
+            console.log(isBreak);
+            console.log(defaultBreakMinutes);
             startTimer();
           }
         } else {
@@ -76,11 +87,18 @@ const Timer = ({ color, setColor }: IProps) => {
   }, [miliseconds, seconds, minutes]);
 
   useEffect(() => {
-    document.documentElement.style.setProperty(
-      '--progress',
-      `${((minutes * 60 + seconds) / (defaultMinutes * 60)) * 100}%`
-    );
-    console.log(`${((minutes * 60 + seconds) / (defaultMinutes * 60)) * 100}%`);
+    if (isBreak) {
+      document.documentElement.style.setProperty(
+        '--progress',
+        `${((minutes * 60 + seconds) / (defaultBreakMinutes * 60)) * 100}%`
+      );
+    } else {
+      document.documentElement.style.setProperty(
+        '--progress',
+        `${((minutes * 60 + seconds) / (defaultMinutes * 60)) * 100}%`
+      );
+    }
+    // console.log(`${((minutes * 60 + seconds) / (defaultMinutes * 60)) * 100}%`);
   }, [defaultMinutes, seconds]);
 
   return (
@@ -99,8 +117,7 @@ const Timer = ({ color, setColor }: IProps) => {
       </button>
       <button
         onClick={() => {
-          resetTimer(defaultMinutes);
-          setIsBreak(false);
+          resetTimer();
         }}
         className={styles.resetBtn}
       >
@@ -123,11 +140,49 @@ const Timer = ({ color, setColor }: IProps) => {
       </button>
       <input
         type="number"
+        name="minutes"
+        max={99}
+        min={1}
+        maxLength={2}
+        value={defaultMinutes}
         onChange={(e) => {
-          setDefaultMinutes(Number(e.target.value));
-          resetTimer(Number(e.target.value));
+          if (e.target.value.length === 2) {
+            if (e.target.value[0] === '0') {
+              e.target.value = e.target.value.slice(1, 2);
+            }
+          }
+          if (e.target.value.length > 2) {
+            e.target.value = e.target.value.slice(0, 2);
+          }
+          if (!isBreak) {
+            resetTimer();
+          }
           if (!isTicking) {
-            setMinutes(Number(e.target.value));
+            setDefaultMinutes(Number(e.target.value));
+          }
+        }}
+      />
+      <input
+        type="number"
+        name="breakMinutes"
+        max={99}
+        min={1}
+        maxLength={2}
+        value={defaultBreakMinutes}
+        onChange={(e) => {
+          if (e.target.value.length === 2) {
+            if (e.target.value[0] === '0') {
+              e.target.value = e.target.value.slice(1, 2);
+            }
+          }
+          if (e.target.value.length > 2) {
+            e.target.value = e.target.value.slice(0, 2);
+          }
+          if (isBreak) {
+            resetTimer();
+          }
+          if (!isTicking) {
+            setDefaultBreakMinutes(Number(e.target.value));
           }
         }}
       />
