@@ -21,14 +21,15 @@ const Timer = ({ color, setColor }: IProps) => {
     setStartDate(new Date().getTime());
     setIsTicking(true);
     setMiliseconds(miliseconds);
+    console.log('start');
   };
+
   const stopTimer = () => {
     setIsTicking(false);
     setStoppedMiliseconds(miliseconds);
   };
 
   const resetTimer = () => {
-    stopTimer();
     setMiliseconds(0);
     setSeconds(0);
     if (isBreak) {
@@ -58,22 +59,12 @@ const Timer = ({ color, setColor }: IProps) => {
         if (minutes === 0) {
           if (isBreak) {
             setIsBreak(false);
-            resetTimer();
-            setMinutes(defaultMinutes);
-            setColor('yellow');
-            console.log('koniec przerwy');
-            console.log(isBreak);
-            console.log(defaultMinutes);
-            startTimer();
-          } else if (!isBreak) {
+            setColor('cyan');
+            console.log('KONIEC PRZERWY');
+          } else {
             setIsBreak(true);
-            resetTimer();
-            setMinutes(defaultBreakMinutes);
             setColor('red');
-            console.log('przerwa');
-            console.log(isBreak);
-            console.log(defaultBreakMinutes);
-            startTimer();
+            console.log('PRZERWA');
           }
         } else {
           setMinutes(minutes - 1);
@@ -87,6 +78,16 @@ const Timer = ({ color, setColor }: IProps) => {
   }, [miliseconds, seconds, minutes]);
 
   useEffect(() => {
+    if (!isBreak) {
+      setMinutes(defaultMinutes);
+    } else {
+      setMinutes(defaultBreakMinutes);
+    }
+    resetTimer();
+  }, [defaultBreakMinutes, defaultMinutes, isBreak]);
+
+  // progressbar styling
+  useEffect(() => {
     if (isBreak) {
       document.documentElement.style.setProperty(
         '--progress',
@@ -99,10 +100,18 @@ const Timer = ({ color, setColor }: IProps) => {
       );
     }
     // console.log(`${((minutes * 60 + seconds) / (defaultMinutes * 60)) * 100}%`);
-  }, [defaultMinutes, seconds]);
+  }, [defaultBreakMinutes, defaultMinutes, isBreak, minutes, seconds]);
 
   return (
     <div className={styles.container}>
+      <div className={styles.mainTimer}>
+        <div className={styles.progressBar}>
+          {/* <div className={styles.progressBarInside}></div> */}
+        </div>
+        <p className={styles.time}>
+          {String('0' + minutes).slice(-2)}:{String('0' + seconds).slice(-2)}
+        </p>
+      </div>
       <button
         onClick={() => {
           if (color === 'red') {
@@ -118,6 +127,7 @@ const Timer = ({ color, setColor }: IProps) => {
       <button
         onClick={() => {
           resetTimer();
+          stopTimer();
         }}
         className={styles.resetBtn}
       >
@@ -186,13 +196,7 @@ const Timer = ({ color, setColor }: IProps) => {
           }
         }}
       />
-      <p className={styles.time}>
-        {String('0' + minutes).slice(-2)}:{String('0' + seconds).slice(-2)}
-      </p>
       <p className={styles.time}>{String('00' + miliseconds).slice(-3)}</p>
-      <div className={styles.progressBar}>
-        <div className={styles.progressBarInside}></div>
-      </div>
     </div>
   );
 };
