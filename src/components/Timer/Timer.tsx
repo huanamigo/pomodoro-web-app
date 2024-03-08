@@ -59,7 +59,7 @@ const Timer = ({ color, setColor }: IProps) => {
         if (minutes === 0) {
           if (isBreak) {
             setIsBreak(false);
-            setColor('cyan');
+            setColor('purple');
             console.log('KONIEC PRZERWY');
           } else {
             setIsBreak(true);
@@ -106,48 +106,47 @@ const Timer = ({ color, setColor }: IProps) => {
     <div className={styles.container}>
       <div className={styles.mainTimer}>
         <div className={styles.progressBar}>
-          {/* <div className={styles.progressBarInside}></div> */}
+          <div className={styles.progressBarInside}></div>
         </div>
         <p className={styles.time}>
           {String('0' + minutes).slice(-2)}:{String('0' + seconds).slice(-2)}
         </p>
       </div>
-      <button
-        onClick={() => {
-          if (color === 'red') {
-            setColor('cyan');
-          } else {
-            setColor('red');
-          }
-        }}
-        className={styles.colorBtn}
-      >
-        COLOR
-      </button>
-      <button
-        onClick={() => {
-          resetTimer();
-          stopTimer();
-        }}
-        className={styles.resetBtn}
-      >
-        RESET
-      </button>
-      <button
-        onClick={() => {
-          if (isTicking) {
+      <div className={styles.buttonContainer}>
+        <button
+          onClick={() => {
+            if (color === 'red') {
+              setColor('purple');
+            } else {
+              setColor('red');
+            }
+          }}
+          className={styles.colorBtn}
+        >
+          COLOR
+        </button>
+        <button
+          onClick={() => {
+            if (isTicking) {
+              stopTimer();
+            } else {
+              startTimer();
+            }
+          }}
+          className={styles.startBtn}
+        >
+          START
+        </button>
+        <button
+          onClick={() => {
+            resetTimer();
             stopTimer();
-          } else {
-            startTimer();
-          }
-        }}
-        className={styles.startBtn}
-      >
-        START
-      </button>
-      <button onClick={() => stopTimer()} className={styles.startBtn}>
-        STOP
-      </button>
+          }}
+          className={styles.resetBtn}
+        >
+          RESET
+        </button>
+      </div>
       <input
         type="number"
         name="minutes"
