@@ -6,14 +6,14 @@ interface IProps {
   setColor: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Timer = ({ color, setColor }: IProps) => {
+const Timer = ({ setColor }: IProps) => {
   const [miliseconds, setMiliseconds] = useState(0);
   const [isTicking, setIsTicking] = useState(false);
   const [startDate, setStartDate] = useState(new Date().getTime());
   const [stoppedMiliseconds, setStoppedMiliseconds] = useState(0);
   const [isBreak, setIsBreak] = useState(false);
-  const [defaultMinutes, setDefaultMinutes] = useState(2);
-  const [defaultBreakMinutes, setDefaultBreakMinutes] = useState(1);
+  const [defaultMinutes, setDefaultMinutes] = useState(20);
+  const [defaultBreakMinutes, setDefaultBreakMinutes] = useState(5);
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(defaultMinutes);
 
@@ -21,7 +21,6 @@ const Timer = ({ color, setColor }: IProps) => {
     setStartDate(new Date().getTime());
     setIsTicking(true);
     setMiliseconds(miliseconds);
-    console.log('start');
   };
 
   const stopTimer = () => {
@@ -59,12 +58,10 @@ const Timer = ({ color, setColor }: IProps) => {
         if (minutes === 0) {
           if (isBreak) {
             setIsBreak(false);
-            setColor('purple');
-            console.log('KONIEC PRZERWY');
+            setColor('rgb(70, 200, 134)');
           } else {
             setIsBreak(true);
-            setColor('red');
-            console.log('PRZERWA');
+            setColor('rgb(210, 60, 60)');
           }
         } else {
           setMinutes(minutes - 1);
@@ -84,6 +81,7 @@ const Timer = ({ color, setColor }: IProps) => {
       setMinutes(defaultBreakMinutes);
     }
     resetTimer();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultBreakMinutes, defaultMinutes, isBreak]);
 
   // progressbar styling
@@ -113,7 +111,7 @@ const Timer = ({ color, setColor }: IProps) => {
         </p>
       </div>
       <div className={styles.buttonContainer}>
-        <button
+        {/* <button
           onClick={() => {
             if (color === 'red') {
               setColor('purple');
@@ -124,7 +122,7 @@ const Timer = ({ color, setColor }: IProps) => {
           className={styles.colorBtn}
         >
           COLOR
-        </button>
+        </button> */}
         <button
           onClick={() => {
             if (isTicking) {
@@ -135,7 +133,7 @@ const Timer = ({ color, setColor }: IProps) => {
           }}
           className={styles.startBtn}
         >
-          START
+          {isTicking ? 'STOP' : 'START'}
         </button>
         <button
           onClick={() => {
@@ -147,54 +145,92 @@ const Timer = ({ color, setColor }: IProps) => {
           RESET
         </button>
       </div>
-      <input
-        type="number"
-        name="minutes"
-        max={99}
-        min={1}
-        maxLength={2}
-        value={defaultMinutes}
-        onChange={(e) => {
-          if (e.target.value.length === 2) {
-            if (e.target.value[0] === '0') {
-              e.target.value = e.target.value.slice(1, 2);
-            }
-          }
-          if (e.target.value.length > 2) {
-            e.target.value = e.target.value.slice(0, 2);
-          }
-          if (!isBreak) {
-            resetTimer();
-          }
-          if (!isTicking) {
-            setDefaultMinutes(Number(e.target.value));
-          }
-        }}
-      />
-      <input
-        type="number"
-        name="breakMinutes"
-        max={99}
-        min={1}
-        maxLength={2}
-        value={defaultBreakMinutes}
-        onChange={(e) => {
-          if (e.target.value.length === 2) {
-            if (e.target.value[0] === '0') {
-              e.target.value = e.target.value.slice(1, 2);
-            }
-          }
-          if (e.target.value.length > 2) {
-            e.target.value = e.target.value.slice(0, 2);
-          }
-          if (isBreak) {
-            resetTimer();
-          }
-          if (!isTicking) {
-            setDefaultBreakMinutes(Number(e.target.value));
-          }
-        }}
-      />
+      <div className={styles.inputContainer}>
+        <div className={styles.inputWrapper}>
+          <button
+            onClick={() => {
+              if (defaultMinutes > 1) {
+                setDefaultMinutes(defaultMinutes - 1);
+              }
+            }}
+          >
+            -
+          </button>
+          <input
+            type="number"
+            name="minutes"
+            max={99}
+            min={1}
+            maxLength={2}
+            value={defaultMinutes}
+            onChange={(e) => {
+              if (e.target.value.length === 2) {
+                if (e.target.value[0] === '0') {
+                  e.target.value = e.target.value.slice(1, 2);
+                }
+              }
+              if (e.target.value.length > 2) {
+                e.target.value = e.target.value.slice(0, 2);
+              }
+              if (!isBreak) {
+                resetTimer();
+              }
+              setDefaultMinutes(Number(e.target.value));
+            }}
+          />
+          <button
+            onClick={() => {
+              if (defaultMinutes < 99) {
+                setDefaultMinutes(defaultMinutes + 1);
+              }
+            }}
+          >
+            +
+          </button>
+        </div>
+        <div className={styles.inputWrapper}>
+          <button
+            onClick={() => {
+              if (defaultBreakMinutes > 1) {
+                setDefaultBreakMinutes(defaultBreakMinutes - 1);
+              }
+            }}
+          >
+            -
+          </button>
+          <input
+            type="number"
+            name="minutes"
+            max={99}
+            min={1}
+            maxLength={2}
+            value={defaultBreakMinutes}
+            onChange={(e) => {
+              if (e.target.value.length === 2) {
+                if (e.target.value[0] === '0') {
+                  e.target.value = e.target.value.slice(1, 2);
+                }
+              }
+              if (e.target.value.length > 2) {
+                e.target.value = e.target.value.slice(0, 2);
+              }
+              if (!isBreak) {
+                resetTimer();
+              }
+              setDefaultBreakMinutes(Number(e.target.value));
+            }}
+          />
+          <button
+            onClick={() => {
+              if (defaultBreakMinutes < 99) {
+                setDefaultBreakMinutes(defaultBreakMinutes + 1);
+              }
+            }}
+          >
+            +
+          </button>
+        </div>
+      </div>
       <p className={styles.time}>{String('00' + miliseconds).slice(-3)}</p>
     </div>
   );

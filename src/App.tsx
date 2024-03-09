@@ -5,7 +5,7 @@ import Timer from './components/Timer/Timer';
 import { useEffect, useState } from 'react';
 
 function App() {
-  const [color, setColor] = useState('purple');
+  const [color, setColor] = useState('rgb(70, 200, 134)');
 
   useEffect(() => {
     document.documentElement.style.setProperty('--main-color', `${color}`);
