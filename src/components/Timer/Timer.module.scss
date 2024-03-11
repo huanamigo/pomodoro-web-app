@@ -61,9 +61,89 @@
 
 .buttonContainer {
   margin: 30px;
-  button {
+
+  .resetBtn {
     text-align: center;
+    animation-name: resetWiden;
+    animation-duration: 1s;
+  }
+
+  .resetBtnHidden {
+    width: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 0px;
+    animation-name: resetShorten;
+    animation-duration: 1s;
+  }
+
+  .startBtn {
+    width: 280px;
+    animation-name: widen;
+    animation-duration: 1s;
+  }
+
+  .startBtnShort {
     width: 130px;
+    animation-name: shorten;
+    animation-duration: 1s;
+  }
+
+  @keyframes shorten {
+    0% {
+      width: 280px;
+    }
+    100% {
+      width: 130px;
+    }
+  }
+
+  @keyframes widen {
+    0% {
+      width: 130px;
+    }
+    100% {
+      width: 280px;
+    }
+  }
+
+  @keyframes resetShorten {
+    0% {
+      width: 130px;
+      padding: 17px 40px;
+      margin: 10px;
+      width: 130px;
+      font-size: 15px;
+    }
+    100% {
+      font-size: 0px;
+      width: 0;
+      margin: 0;
+      padding: 0;
+      font-size: 0px;
+    }
+  }
+
+  @keyframes resetWiden {
+    0% {
+      width: 0;
+      margin: 0;
+      padding: 0;
+      font-size: 0px;
+      font-size: 0px;
+    }
+    100% {
+      width: 130px;
+      padding: 17px 40px;
+      margin: 10px;
+      width: 130px;
+      font-size: 15px;
+    }
+  }
+
+  button {
+    width: 130px;
+    text-align: center;
     padding: 17px 40px;
     margin: 10px;
     border-radius: 50px;

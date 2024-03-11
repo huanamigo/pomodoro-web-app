@@ -111,18 +111,6 @@ const Timer = ({ setColor }: IProps) => {
         </p>
       </div>
       <div className={styles.buttonContainer}>
-        {/* <button
-          onClick={() => {
-            if (color === 'red') {
-              setColor('purple');
-            } else {
-              setColor('red');
-            }
-          }}
-          className={styles.colorBtn}
-        >
-          COLOR
-        </button> */}
         <button
           onClick={() => {
             if (isTicking) {
@@ -131,16 +119,21 @@ const Timer = ({ setColor }: IProps) => {
               startTimer();
             }
           }}
-          className={styles.startBtn}
+          className={`${isTicking ? styles.startBtnShort : null} ${
+            styles.startBtn
+          } `}
         >
           {isTicking ? 'STOP' : 'START'}
         </button>
+
         <button
           onClick={() => {
             resetTimer();
             stopTimer();
           }}
-          className={styles.resetBtn}
+          className={`${isTicking ? null : styles.resetBtnHidden} ${
+            styles.resetBtn
+          } `}
         >
           RESET
         </button>
