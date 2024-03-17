@@ -60,7 +60,7 @@
 }
 
 .buttonContainer {
-  margin: 30px;
+  margin: 30px 0 5px 0;
 
   .resetBtn {
     text-align: center;
@@ -180,6 +180,13 @@
 
 .inputContainer {
   display: flex;
+
+  .inputTitle {
+    color: white;
+    font-size: 12px;
+    width: 150px;
+    text-align: center;
+  }
   .inputWrapper {
     width: 130px;
     padding: 3px 14px;

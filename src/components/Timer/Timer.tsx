@@ -139,6 +139,10 @@ const Timer = ({ setColor }: IProps) => {
         </button>
       </div>
       <div className={styles.inputContainer}>
+        <p className={styles.inputTitle}>main</p>
+        <p className={styles.inputTitle}>break</p>
+      </div>
+      <div className={styles.inputContainer}>
         <div className={styles.inputWrapper}>
           <button
             onClick={() => {
@@ -181,6 +185,7 @@ const Timer = ({ setColor }: IProps) => {
             +
           </button>
         </div>
+
         <div className={styles.inputWrapper}>
           <button
             onClick={() => {
@@ -224,7 +229,7 @@ const Timer = ({ setColor }: IProps) => {
           </button>
         </div>
       </div>
-      <p className={styles.time}>{String('00' + miliseconds).slice(-3)}</p>
+      {/* <p className={styles.time}>{String('00' + miliseconds).slice(-3)}</p> */}
     </div>
   );
 };
