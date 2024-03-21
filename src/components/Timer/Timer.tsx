@@ -103,9 +103,8 @@ const Timer = ({ setColor }: IProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.mainTimer}>
-        <div className={styles.progressBar}>
-          <div className={styles.progressBarInside}></div>
-        </div>
+        <div className={styles.progressBar}></div>
+        {/* <div className={styles.progressBarSecond}></div> */}
         <p className={styles.time}>
           {String('0' + minutes).slice(-2)}:{String('0' + seconds).slice(-2)}
         </p>
@@ -230,6 +229,11 @@ const Timer = ({ setColor }: IProps) => {
         </div>
       </div>
       {/* <p className={styles.time}>{String('00' + miliseconds).slice(-3)}</p> */}
+      <div className={styles.container1}>
+        <div className={styles.uiWidgets}>
+          <div className={styles.uiValues}>70%</div>
+        </div>
+      </div>
     </div>
   );
 };

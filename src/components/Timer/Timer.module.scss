@@ -35,27 +35,20 @@
       height: 300px;
       border-radius: 50%;
       background-color: white;
-      background: radial-gradient(closest-side, black 90%, transparent 80% 100%),
+      background: radial-gradient(closest-side, black 90%, transparent 95% 100%),
         conic-gradient(var(--main-color) var(--progress), transparent 0);
-      box-shadow: var(--main-color) 0px 0px 20px 1px;
-      // .progressBarInside {
-      //   position: absolute;
-      //   width: 350px;
-      //   height: 350px;
-      //   border-radius: 50%;
-      //   background-color: white;
-      //   background: radial-gradient(
-      //       closest-side,
-      //       black 50%,
-      //       transparent 100% 100%
-      //     ),
-      //     conic-gradient(transparent var(--progress), black 0);
-      //   top: 50%;
-      //   left: 50%;
-      //   transform: translate(-50%, -50%);
-      //   z-index: 4;
-      // }
+      // box-shadow: var(--main-color) 0px 0px 20px 1px;
     }
+    // .progressBarSecond {
+    //   position: relative;
+    //   width: 350px;
+    //   height: 350px;
+    //   border-radius: 50%;
+    //   background-color: white;
+    //   background: radial-gradient(closest-side, transparent 100%, black 50% 50%),
+    //     conic-gradient(red var(--progress), transparent 0);
+    //   box-shadow: red 0px 0px 20px 1px;
+    // }
   }
 }
 
