@@ -28,27 +28,46 @@
       top: 50%;
       transform: translate(-50%, -50%);
       color: var(--main-color);
+      z-index: 3;
     }
-    .progressBar {
+
+    .progressWrapper {
       position: relative;
       width: 300px;
       height: 300px;
-      border-radius: 50%;
-      background-color: white;
-      background: radial-gradient(closest-side, black 90%, transparent 95% 100%),
-        conic-gradient(var(--main-color) var(--progress), transparent 0);
-      // box-shadow: var(--main-color) 0px 0px 20px 1px;
+
+      .progressBar {
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background-color: white;
+        background: radial-gradient(
+            closest-side,
+            black 90%,
+            transparent 100% 100%
+          ),
+          conic-gradient(var(--main-color) var(--progress), transparent 0%);
+        z-index: 2;
+        // box-shadow: var(--main-color) 0px 0px 20px 1px;
+      }
+
+      .progressBarSecond {
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background-color: white;
+        background: radial-gradient(
+            closest-side,
+            black 88%,
+            transparent 100% 100%
+          ),
+          conic-gradient(rgb(133, 133, 133) 100%, transparent 0%);
+        // box-shadow: red 0px 0px 20px 1px;
+        z-index: 1;
+      }
     }
-    // .progressBarSecond {
-    //   position: relative;
-    //   width: 350px;
-    //   height: 350px;
-    //   border-radius: 50%;
-    //   background-color: white;
-    //   background: radial-gradient(closest-side, transparent 100%, black 50% 50%),
-    //     conic-gradient(red var(--progress), transparent 0);
-    //   box-shadow: red 0px 0px 20px 1px;
-    // }
   }
 }
 

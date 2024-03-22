@@ -103,8 +103,10 @@ const Timer = ({ setColor }: IProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.mainTimer}>
-        <div className={styles.progressBar}></div>
-        {/* <div className={styles.progressBarSecond}></div> */}
+        <div className={styles.progressWrapper}>
+          <div className={styles.progressBar}></div>
+          <div className={styles.progressBarSecond}></div>
+        </div>
         <p className={styles.time}>
           {String('0' + minutes).slice(-2)}:{String('0' + seconds).slice(-2)}
         </p>
